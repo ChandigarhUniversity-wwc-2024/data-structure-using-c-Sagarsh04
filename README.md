@@ -15,6 +15,7 @@ This project aims to predict insurance fraud using a machine learning model. The
 - [Project Structure](#project-structure)
 - [Dependencies](#dependencies)
 - [License](#license)
+- [Author](#author)
 
 ## Overview
 The Insurance Fraud Prediction project leverages machine learning to identify potentially fraudulent insurance claims. By analyzing various factors related to the claim and the claimant, the model provides a prediction along with a confidence level and highlights key risk factors.
@@ -156,3 +157,8 @@ InsurancePrediction/
 
 ## License
 This project is licensed under the MIT License.
+
+## Author
+- **Name:** Sagar Sharma
+- **Email:** Sharmasagar8407@gmail.com
+- **GitHub:** https://github.com/your-github-Sagarsh04
