@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insurance Fraud Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="form-container animate__animated animate__fadeIn">
+        <h2 class="text-center mb-4">Insurance Fraud Prediction</h2>
+        <form id="predictionForm">
+            <div class="form-section">
+                <h3>Insurance Claim Information</h3>
+                <div class="form-row">
+                    <!-- Column 1 -->
+                    <div class="form-column">
+                        <h4>Basic Details</h4>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Months as Customer:</label>
+                                <input type="number" name="months_as_customer" value="150" required 
+                                    min="1" max="600" step="1">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Duration of customer relationship<br>
+                                    <strong>Range:</strong> 1-600 months<br>
+                                    <strong>Typical:</strong> 50-300 months
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Policy Deductable:</label>
+                                <select name="policy_deductable">
+                                    <option value="500">500</option>
+                                    <option value="1000">1000</option>
+                                    <option value="2000">2000</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Amount paid before insurance coverage begins<br>
+                                    <strong>Options:</strong> $500, $1000, $2000<br>
+                                    <strong>Typical:</strong> $1000
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Umbrella Limit:</label>
+                                <input type="number" name="umbrella_limit" value="0" required 
+                                    min="0" max="10000000" step="1000">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Additional liability insurance<br>
+                                    <strong>Range:</strong> $0 - $5,000,000<br>
+                                    <strong>Typical:</strong> $1,000,000
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Capital Gains:</label>
+                                <input type="number" name="capital-gains" value="0" required 
+                                    min="0" max="1000000" step="100">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Profit from the sale of assets<br>
+                                    <strong>Range:</strong> $0 - $1,000,000<br>
+                                    <strong>Typical:</strong> $0 - $50,000
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Capital Loss:</label>
+                                <input type="number" name="capital-loss" value="0" required 
+                                    min="0" max="1000000" step="100">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Loss from the sale of assets<br>
+                                    <strong>Range:</strong> $0 - $1,000,000<br>
+                                    <strong>Typical:</strong> $0 - $50,000
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Incident Hour (0-23):</label>
+                                <input type="number" name="incident_hour" min="0" max="23" required step="1">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Hour of the incident<br>
+                                    <strong>Range:</strong> 0-23<br>
+                                    <strong>Typical:</strong> 8-18
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Vehicles Involved:</label>
+                                <input type="number" name="vehicles_involved" min="1" max="4" required step="1">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Number of vehicles involved in the incident<br>
+                                    <strong>Range:</strong> 1-4<br>
+                                    <strong>Typical:</strong> 1-2
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Bodily Injuries:</label>
+                                <input type="number" name="bodily_injuries" min="0" max="2" required step="1">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Number of bodily injuries<br>
+                                    <strong>Range:</strong> 0-2<br>
+                                    <strong>Typical:</strong> 0-1
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Witnesses:</label>
+                                <input type="number" name="witnesses" min="0" max="3" required step="1">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Number of witnesses<br>
+                                    <strong>Range:</strong> 0-3<br>
+                                    <strong>Typical:</strong> 0-1
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Injury Claim:</label>
+                                <input type="number" name="injury_claim" value="0" required 
+                                    min="0" max="1000000" step="100">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Amount claimed for injuries<br>
+                                    <strong>Range:</strong> $0 - $1,000,000<br>
+                                    <strong>Typical:</strong> $0 - $50,000
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="form-column">
+                        <h4>Incident Details</h4>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Property Claim:</label>
+                                <input type="number" name="property_claim" value="0" required 
+                                    min="0" max="1000000" step="100">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Amount claimed for property damage<br>
+                                    <strong>Range:</strong> $0 - $1,000,000<br>
+                                    <strong>Typical:</strong> $0 - $50,000
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Vehicle Claim:</label>
+                                <input type="number" name="vehicle_claim" value="0" required 
+                                    min="0" max="1000000" step="100">
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Amount claimed for vehicle damage<br>
+                                    <strong>Range:</strong> $0 - $1,000,000<br>
+                                    <strong>Typical:</strong> $0 - $50,000
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Policy CSL:</label>
+                                <select name="policy_csl">
+                                    <option value="250/500">250/500</option>
+                                    <option value="500/1000">500/1000</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Combined single limit for liability coverage<br>
+                                    <strong>Options:</strong> $250,000/$500,000, $500,000/$1,000,000<br>
+                                    <strong>Typical:</strong> $250,000/$500,000
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Insured Sex:</label>
+                                <select name="insured_sex">
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Gender of the insured<br>
+                                    <strong>Options:</strong> Male, Female<br>
+                                    <strong>Typical:</strong> Male
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Education Level:</label>
+                                <select name="insured_education">
+                                    <option value="High School">High School</option>
+                                    <option value="College">College</option>
+                                    <option value="Masters">Masters</option>
+                                    <option value="PhD">PhD</option>
+                                    <option value="MD">MD</option>
+                                    <option value="JD">JD</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Highest level of education attained<br>
+                                    <strong>Options:</strong> High School, College, Masters, PhD, MD, JD<br>
+                                    <strong>Typical:</strong> College
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Occupation:</label>
+                                <select name="insured_occupation">
+                                    <option value="armed-forces">Armed Forces</option>
+                                    <option value="craft-repair">Craft Repair</option>
+                                    <option value="exec-managerial">Executive/Managerial</option>
+                                    <option value="farming-fishing">Farming/Fishing</option>
+                                    <option value="handlers-cleaners">Handlers/Cleaners</option>
+                                    <option value="machine-op-inspct">Machine Operator/Inspector</option>
+                                    <option value="other-service">Other Service</option>
+                                    <option value="priv-house-serv">Private House Service</option>
+                                    <option value="prof-specialty">Professional Specialty</option>
+                                    <option value="protective-serv">Protective Service</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="tech-support">Tech Support</option>
+                                    <option value="transport-moving">Transport/Moving</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Occupation of the insured<br>
+                                    <strong>Options:</strong> Various<br>
+                                    <strong>Typical:</strong> Professional Specialty
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Relationship:</label>
+                                <select name="insured_relationship">
+                                    <option value="not-in-family">Not in family</option>
+                                    <option value="other-relative">Other relative</option>
+                                    <option value="own-child">Own child</option>
+                                    <option value="unmarried">Unmarried</option>
+                                    <option value="wife">Wife</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Relationship of the insured<br>
+                                    <strong>Options:</strong> Not in family, Other relative, Own child, Unmarried, Wife<br>
+                                    <strong>Typical:</strong> Not in family
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Incident Type:</label>
+                                <select name="incident_type">
+                                    <option value="Single Vehicle Collision">Single Vehicle Collision</option>
+                                    <option value="Vehicle Theft">Vehicle Theft</option>
+                                    <option value="Parked Car">Parked Car</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Type of incident<br>
+                                    <strong>Options:</strong> Single Vehicle Collision, Vehicle Theft, Parked Car<br>
+                                    <strong>Typical:</strong> Single Vehicle Collision
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Collision Type:</label>
+                                <select name="collision_type">
+                                    <option value="Rear Collision">Rear Collision</option>
+                                    <option value="Side Collision">Side Collision</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Type of collision<br>
+                                    <strong>Options:</strong> Rear Collision, Side Collision<br>
+                                    <strong>Typical:</strong> Rear Collision
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Incident Severity:</label>
+                                <select name="incident_severity">
+                                    <option value="Minor Damage">Minor Damage</option>
+                                    <option value="Total Loss">Total Loss</option>
+                                    <option value="Trivial Damage">Trivial Damage</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Severity of the incident<br>
+                                    <strong>Options:</strong> Minor Damage, Total Loss, Trivial Damage<br>
+                                    <strong>Typical:</strong> Minor Damage
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Authorities Contacted:</label>
+                                <select name="authorities_contacted">
+                                    <option value="Police">Police</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Other">Other</option>
+                                    <option value="None">None</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Authorities contacted after the incident<br>
+                                    <strong>Options:</strong> Police, Fire, Other, None<br>
+                                    <strong>Typical:</strong> Police
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Property Damage:</label>
+                                <select name="property_damage">
+                                    <option value="YES">Yes</option>
+                                    <option value="NO">No</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Whether property damage occurred<br>
+                                    <strong>Options:</strong> Yes, No<br>
+                                    <strong>Typical:</strong> Yes
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-wrapper">
+                                <label>Police Report:</label>
+                                <select name="police_report">
+                                    <option value="YES">Yes</option>
+                                    <option value="NO">No</option>
+                                </select>
+                                <span class="tooltip-icon">?</span>
+                                <div class="tooltip-text">
+                                    <strong>Description:</strong> Whether a police report was filed<br>
+                                    <strong>Options:</strong> Yes, No<br>
+                                    <strong>Typical:</strong> Yes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Processing prediction...</p>
+            </div>
+
+            <button type="submit" class="w-100">Predict</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
