@@ -157,7 +157,6 @@ InsurancePrediction/
 
 ## License
 This project is licensed under the MIT License
-MIT License
 
 ```
 Copyright (c) 2024 Sagar Sharma
