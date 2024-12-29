@@ -34,7 +34,7 @@ The Insurance Fraud Prediction project leverages machine learning to identify po
 ### Steps
 1. **Clone the repository:**
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/ChandigarhUniversity-wwc-2024/data-structure-using-c-Sagarsh04.git
     cd InsurancePrediction
     ```
 
